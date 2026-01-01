@@ -49,6 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
       body: Container(
@@ -59,60 +60,81 @@ class _SplashScreenState extends State<SplashScreen> {
             image: const AssetImage('assets/images/bg.jpg'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.5),
+              Colors.black.withOpacity(0.3),
               BlendMode.darken,
             ),
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
-            // Logo
-            Image.asset(
-              isDark
-                  ? 'assets/images/logo_dark.png'
-                  : 'assets/images/logo_light.png',
-              width: 150.w,
-              height: 150.w,
-            ),
-            
-            SizedBox(height: 20.h),
-            
-            // App Name
-            Text(
-              'Welcome to DeepThinkers',
-              style: GoogleFonts.montserrat(
-                fontSize: 24.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+            // Black gradient at bottom
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 300.h,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      Colors.black.withOpacity(0.7),
+                      Colors.black.withOpacity(0.95),
+                    ],
+                  ),
+                ),
               ),
             ),
             
-            SizedBox(height: 8.h),
-            
-            // Tagline
-            Text(
-              'Express your Esoteric Thoughts.',
-              style: GoogleFonts.montserrat(
-                fontSize: 14.sp,
-                color: Colors.white70,
-              ),
-            ),
-            
-            SizedBox(height: 40.h),
-            
-            // Loading Indicator
-            const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFFF6B35)),
-            ),
-            
-            SizedBox(height: 16.h),
-            
-            Text(
-              'Authenticating ...',
-              style: GoogleFonts.montserrat(
-                fontSize: 14.sp,
-                color: Colors.white70,
+            // Content
+            Positioned(
+              bottom: 60.h,
+              left: 0,
+              right: 0,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  
+                  SizedBox(height: 24.h),
+                  
+                  // App Name
+                  Text(
+                    'Welcome to DeepThinkers',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  
+                  SizedBox(height: 6.h),
+                  
+                  // Tagline
+                  Text(
+                    'Express your Esoteric Thoughts.',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 13.sp,
+                      color: Colors.white70,
+                    ),
+                  ),
+                  
+                  // Loading Indicator
+                  CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(themeProvider.primaryColor),
+                  ),
+                  
+                  SizedBox(height: 12.h),
+                  
+                  Text(
+                    'Authenticating ...',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 13.sp,
+                      color: Colors.white60,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
